@@ -36,33 +36,25 @@ namespace Lab3_HMI.Controllers
         public IActionResult AddPassenger(int flightId)
         {
             ViewBag.FlightId = flightId;
-            return View();
+            var model = new Passenger();
+            return View(model);
         }
 
-        public void AddBag(Baggage bag)
-        {
-            _db.Baggages.Add(bag);
-        }
-        
         public IActionResult AddPassengerToFlight(Passenger passenger, int flightId)
         {
             if (ModelState.IsValid)
             {
                 passenger.Flight = _db.Flights.Single(f => f.Id == flightId);
 
-                //все последние багажи сохраненый с айди 0, теперь нужно присвоить их конкретному человеку
-                foreach (var bag in _db.Baggages.Where(bag => bag.Id == 0))
+                foreach (var bag in passenger.Baggage)
                 {
-                    bag.Id = passenger.Id;
-                    bag.Passenger = passenger;
+                   bag.Passenger = passenger;
+                    _db.Baggages.Add(bag);
                 }
-
-                var baggage = _db.Baggages.Where(b => b.Id == passenger.Id);
-                passenger.Baggage = new List<Baggage>(baggage);
-
                 _db.Passengers.Add(passenger);
 
                 _db.SaveChanges();
+
                 return RedirectToAction(nameof(PassengersOfFlight), new { flightId = flightId });
             }
             return View();
@@ -108,7 +100,7 @@ namespace Lab3_HMI.Controllers
         {
             return View();
         }
-        
+
 
 
         [HttpGet]

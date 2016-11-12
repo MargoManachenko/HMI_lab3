@@ -32,7 +32,5 @@ namespace Lab3_HMI.Models
 
         public virtual Passenger Passenger { get; set; }
     }
-
-
    
 }

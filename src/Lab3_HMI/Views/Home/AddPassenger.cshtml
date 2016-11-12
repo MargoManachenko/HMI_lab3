@@ -1,10 +1,11 @@
 ﻿@using Lab3_HMI.Models
-@model PassengerBaggageViewModel
-
-
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model Passenger
 @{
     ViewData["Title"] = "Добавление пассажира";
 }
+
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,40 +14,44 @@
     <script src="~/js/addBag.js"></script>
     <script src="~/js/addOneBag.js"></script>
 
-    <script>
-        
-        function AddOneBag() {
-            var model =
-                   {
-                       Type: ($(".type option:selected").val()),
-                       Weight: $(".weight").val(),
-                       Width: ($(".width").val()),
-                       Height: ($(".height").val()),
-                       Depth: ($(".depth").val())
-                   };
+    <script language="javascript" type="text/javascript">
 
-            $.ajax({
-                type: "GET",
-                url: "/Home/AddBag",
-                data: model
-            });
+        function addRow() {
+            @{
+                 Model.Baggage.Add(new Baggage());
+             }
+
+            var index = $("#tbBaggage").children("tr").length;
+
+            var indexCell = "<td style='display:none'><input name='Baggage.Index' type='hidden' value='" + index + "' /></td>";
+            var typeCell = "<td><input id='Type" + index + "' name='Baggage[" + index + "].Type' type='text' value='' /></td>";
+            var weightCell = "<td><input id='Weight" + index + "' name='Baggage[" + index + "].Weight' type='text' value='' /></td>";
+            var heightCell = "<td><input id='Height" + index + "' name='Baggage[" + index + "].Height' type='text' value='' /></td>";
+            var widthCell = "<td><input id='Width" + index + "' name='Baggage[" + index + "].Width' type='text' value='' /></td>";
+            var depthCell = "<td><input id='Depth" + index + "' name='Baggage[" + index + "].Depth' type='text' value='' /></td>";
+
+            var removeCell = "<td><input id='btnAddBag' type='button' value='Remove' onclick='removeRow(" + index + ");' /></td>";
+
+            var newRow = "<tr id='trBaggage" + index + "'>" +
+                indexCell + typeCell + weightCell + heightCell + widthCell + depthCell + removeCell + "</tr>";
+            $("#tbBaggage").append(newRow);
         }
 
-        function AddPassangerToFlight() {
-            var model = {
-                Name: $("#name").val(),
-                Surname: $("#surname").val(),
-                Phone: $("#phone").val(),
-                Flight: $("#flight").val()
-
-            };
-
+        function removeRow(id) {
+            var controlToBeRemoved = "#trBaggage" + id;
+            $(controlToBeRemoved).remove();
+        }
+        function doSmth()
+        {
+            
             $.ajax({
                 type: "GET",
                 url: "/Home/AddPassengerToFlight",
-                data: model
+                data: @Model 
             });
         }
+           
+        
 
     </script>
 
@@ -54,7 +59,9 @@
 
 <form asp-controller="Home" asp-action="AddPassengerToFlight" asp-route-flightId="@ViewBag.FlightId" method="post" class="form-horizontal">
     <h3>Добавление нового пассажира <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
-    <input type="hidden" id="flight" value="@ViewBag.FlightId">
+    <input type="hidden" asp-for="Id" value="@ViewBag.FlightId">
+    <input type="hidden" class="idForBag" value="0">
+
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
@@ -83,76 +90,49 @@
         <div class="col-md-offset-2 col-md-10">
             <p>
                 Добавить багаж
-                <a href="#collapceBaggage" class="glyphicon glyphicon-chevron-down" data-toggle="collapse"></a>
-                <a href="" class="glyphicon glyphicon-chevron-up" data-toggle="hide"></a>
             </p>
         </div>
     </div>
 
-    <div id="collapceBaggage" class="collapse" >
-        <div class="control-group" id="fields">
-            <div class="controls">
-                <div role="form" autocomplete="off" class="col-md-offset-2 col-md-10">
-                    <div class="entry input-group col-xs-3">
-                        <div >
-                            <div class="form-group">
-                                <label asp-for="Type" class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <select asp-for="Type" class="type">
-                                        <option>Ручная кладь</option>
-                                        <option>Багаж</option>
-                                    </select>
-                                </div>
-                            </div>
+    <fieldset>
 
-                            <div class="form-group">
-                                <label asp-for="Weight" class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="Weight"  class="weight" placeholder="Вес" required/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Height"  class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="Height"  class="height" placeholder="Высота" required/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Width"  class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="Width" class="width" placeholder="Ширина" required/>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Depth" class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <input asp-for="Depth" class="depth" placeholder="Глубина" required/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <span class="input-group-btn">
-                                <button class="btn btn-success btn-add " onclick="AddOneBag()" >
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <br>
-            </div>
+        <div>
+            <input id="btnAddBag" type="button"
+                   onclick="addRow();" value="Добавить" />
         </div>
-    </div>
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        Тип
+                    </td>
+                    <td>
+                        Вес
+                    </td>
+                    <td>
+                        Высота
+                    </td>
+                    <td>
+                        Ширина
+                    </td>
+                    <td>
+                        Глубина
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="tbBaggage"></tbody>
+        </table>
+    </fieldset>
+
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId">Назад</a>
-            <button type="submit" class="btn btn-success" style="margin-left:120px;">Добавить</button>
+            <button type="submit" class="btn btn-success" style="margin-left: 120px;">Добавить</button>
         </div>
     </div>
 </form>
+
 
 
 

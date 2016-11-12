@@ -8,6 +8,11 @@ namespace Lab3_HMI.Models
 {
     public class Passenger
     {
+        public Passenger()
+        {
+            Baggage = new List<Baggage>();
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -20,10 +25,11 @@ namespace Lab3_HMI.Models
 
         [Display(Name = "Телефон")]
         public string Phone { get; set; }
-        public string Address { get; set; }
 
         public virtual Flight Flight { get; set; }
 
         public virtual List<Baggage> Baggage { get; set; }
+
+
     }
 }

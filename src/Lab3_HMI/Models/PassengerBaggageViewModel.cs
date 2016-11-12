@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Lab3_HMI.Models
 {
-    public class PassengerBaggageViewModel
+    public sealed class PassengerBaggageViewModel
     {
         public int Id { get; set; }
 
@@ -23,9 +23,9 @@ namespace Lab3_HMI.Models
         public string Phone { get; set; }
         public string Address { get; set; }
 
-        public virtual Flight Flight { get; set; }
+        public Flight Flight { get; set; }
 
-        public virtual List<Baggage> Baggage { get; set; }
+        public List<Baggage> Baggage { get; set; }
 
         [Required]
         [Display(Name = "Вес")]
@@ -46,5 +46,10 @@ namespace Lab3_HMI.Models
         [Required]
         [Display(Name = "Тип")]
         public string Type { get; set; }
+
+        public PassengerBaggageViewModel()
+        {
+            Baggage = new List<Baggage>();
+        }
     }
 }
