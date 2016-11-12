@@ -1,0 +1,162 @@
+﻿@using Lab3_HMI.Models
+@model PassengerBaggageViewModel
+
+
+@{
+    ViewData["Title"] = "Добавление пассажира";
+}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/js/addBag.js"></script>
+    <script src="~/js/addOneBag.js"></script>
+
+    <script>
+        
+        function AddOneBag() {
+            var model =
+                   {
+                       Type: ($(".type option:selected").val()),
+                       Weight: $(".weight").val(),
+                       Width: ($(".width").val()),
+                       Height: ($(".height").val()),
+                       Depth: ($(".depth").val())
+                   };
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/AddBag",
+                data: model
+            });
+        }
+
+        function AddPassangerToFlight() {
+            var model = {
+                Name: $("#name").val(),
+                Surname: $("#surname").val(),
+                Phone: $("#phone").val(),
+                Flight: $("#flight").val()
+
+            };
+
+            $.ajax({
+                type: "GET",
+                url: "/Home/AddPassengerToFlight",
+                data: model
+            });
+        }
+
+    </script>
+
+</head>
+
+<form asp-controller="Home" asp-action="AddPassengerToFlight" asp-route-flightId="@ViewBag.FlightId" method="post" class="form-horizontal">
+    <h3>Добавление нового пассажира <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
+    <input type="hidden" id="flight" value="@ViewBag.FlightId">
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Surname" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Surname" id="surname" class="form-control" placeholder="Введите фамилию пассажира..." required />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Name" id="name" class="form-control" placeholder="Введите имя пассажира..." />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Phone" id="phone" class="form-control" placeholder="Введите телефон пассажира..." required />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <p>
+                Добавить багаж
+                <a href="#collapceBaggage" class="glyphicon glyphicon-chevron-down" data-toggle="collapse"></a>
+                <a href="" class="glyphicon glyphicon-chevron-up" data-toggle="hide"></a>
+            </p>
+        </div>
+    </div>
+
+    <div id="collapceBaggage" class="collapse" >
+        <div class="control-group" id="fields">
+            <div class="controls">
+                <div role="form" autocomplete="off" class="col-md-offset-2 col-md-10">
+                    <div class="entry input-group col-xs-3">
+                        <div >
+                            <div class="form-group">
+                                <label asp-for="Type" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <select asp-for="Type" class="type">
+                                        <option>Ручная кладь</option>
+                                        <option>Багаж</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Weight" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Weight"  class="weight" placeholder="Вес" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Height"  class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Height"  class="height" placeholder="Высота" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Width"  class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Width" class="width" placeholder="Ширина" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Depth" class="col-md-2 control-label"></label>
+                                <div class="col-md-10">
+                                    <input asp-for="Depth" class="depth" placeholder="Глубина" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success btn-add " onclick="AddOneBag()" >
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId">Назад</a>
+            <button type="submit" class="btn btn-success" style="margin-left:120px;">Добавить</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+﻿@using Lab3_HMI.Models
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model Passenger
+
+@{
+    ViewData["Title"] = "Добавление пассажира";
+}
+
+<form asp-controller="Home" asp-action="EditPassenger" asp-route-flightId="@Model.Flight.Id" method="post" class="form-horizontal">
+    <h3>Редактирование информации о пассажире <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" value="@Model.Id" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Surname" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Surname" class="form-control" placeholder="Введите фамилию пассажира..." required />
+            <span asp-validation-for="Surname" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Name" class="form-control" placeholder="Введите имя пассажира..." />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Phone" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Phone" class="form-control" placeholder="Введите телефон пассажира..." required />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId">Назад</a>
+            <button type="submit" class="btn btn-success" style="margin-left:120px;">Сохранить</button>
+        </div>
+    </div>
+</form>
+
+
+

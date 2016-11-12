@@ -1,0 +1,67 @@
+﻿@using Lab3_HMI.Models
+@model Flight
+
+@{
+    ViewData["Title"] = "Добавление рейса";
+}
+
+<form asp-controller="Home" asp-action="EditFlight" method="post" class="form-horizontal">
+    <h3>Редактирование рейса <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
+    <hr />
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="CompanyName" class="form-control" placeholder="Введите название компании..." required />
+            <span asp-validation-for="CompanyName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="AircraftType" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="AircraftType" class="form-control">
+                <option>Пассажирский</option>
+                <option>Грузовой</option>
+            </select>
+            <span asp-validation-for="AircraftType" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="DepaturePoint" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="DepaturePoint" class="form-control" placeholder="Харьков, Москва, Нью-Йорк..." required />
+            <span asp-validation-for="DepaturePoint" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ArrivalPoint" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="ArrivalPoint" class="form-control" placeholder="Париж, Берлин, Прага..." required />
+            <span asp-validation-for="ArrivalPoint" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfStart" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input type="datetime-local" asp-for="DateOfStart" class="form-control" required />
+            <span asp-validation-for="DateOfStart" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfFinish" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input type="datetime-local" asp-for="DateOfFinish" class="form-control" required />
+            <span asp-validation-for="DateOfFinish" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a class="btn btn-default" asp-action="Index">Назад</a>
+            <button type="submit" class="btn btn-success" style="margin-left:120px;">Сохранить</button>
+        </div>
+    </div>
+</form>
+
+
+

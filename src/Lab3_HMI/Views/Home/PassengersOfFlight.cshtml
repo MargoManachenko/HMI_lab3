@@ -1,0 +1,75 @@
+﻿@using Lab3_HMI.Models
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model List<Passenger>
+
+@{
+    ViewData["Title"] = "Пассажиры";
+}
+
+<a asp-action="AddPassenger" asp-route-flightId="@ViewBag.FlightId" class="btn btn-success addPass"><span class="glyphicon glyphicon-plus"></span>  Добавить пассажира</a>
+<div>
+    @if (Model != null && Model.Count != 0)
+    {
+        <h2>Пассажиры рейса @ViewBag.Route</h2>
+        var count = 1;
+        <table>
+            <tr>
+                <td><b>№ пассажира</b></td>
+                <td><b>Фамилия</b></td>
+                <td><b>Имя</b></td>
+                <td><b>Телефон</b></td>
+            </tr>
+            @foreach (var passenger in Model)
+            {
+                <tr>
+                    <td>@count.</td>
+                    <td>@passenger.Surname</td>
+                    <td>@passenger.Name</td>
+                    <td>@passenger.Phone</td>
+                    <td><a asp-action="" class="glyphicon glyphicon-user"  title="Пассажиры рейса"></a></td>
+                    <td><a asp-action="EditPassenger" asp-route-passengerId="@passenger.Id" class="glyphicon glyphicon-pencil" title="Редактировать"></a></td>
+                    <td>
+                        <a asp-action="DeletePassenger" asp-route-flightId="@passenger.Flight.Id" asp-route-passengerId="@passenger.Id" class="glyphicon glyphicon-remove" title="Удалить" style="color:red;"></a>
+                    </td>
+                </tr>
+                count++;
+            }
+        </table>
+    }
+    else
+    {
+        <h3>В данном рейсе отсутствуют пассажиры</h3>
+    }
+</div>
+
+<style>
+    .addPass
+    {
+        margin-top:20px;
+    }
+    table
+    {
+        margin-top:40px;
+    }
+
+    td
+    {
+        margin-right:10px;
+        padding-right:40px;
+        padding-top:10px;
+    }
+
+    a
+    {
+        cursor:pointer;
+    }
+
+    .planeIcon
+    {
+        -webkit-transform: rotate(90deg); /* Chrome y Safari */
+        -moz-transform: rotate(90deg); /* Firefox */
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); /* Internet Explorer */
+        -o-transform: rotate(90deg); /* Opera */
+        display: inline-block; padding-left: 8px; vertical-align: text-top; text-indent: 0px;
+    }
+</style>
