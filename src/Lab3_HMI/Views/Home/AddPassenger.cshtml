@@ -40,18 +40,7 @@
         function removeRow(id) {
             var controlToBeRemoved = "#trBaggage" + id;
             $(controlToBeRemoved).remove();
-        }
-        function doSmth()
-        {
-            
-            $.ajax({
-                type: "GET",
-                url: "/Home/AddPassengerToFlight",
-                data: @Model 
-            });
-        }
-           
-        
+        }       
 
     </script>
 
@@ -59,8 +48,6 @@
 
 <form asp-controller="Home" asp-action="AddPassengerToFlight" asp-route-flightId="@ViewBag.FlightId" method="post" class="form-horizontal">
     <h3>Добавление нового пассажира <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
-    <input type="hidden" asp-for="Id" value="@ViewBag.FlightId">
-    <input type="hidden" class="idForBag" value="0">
 
     <hr />
     <div asp-validation-summary="All" class="text-danger"></div>
