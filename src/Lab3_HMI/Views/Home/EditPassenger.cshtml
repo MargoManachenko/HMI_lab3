@@ -1,14 +1,25 @@
-﻿@using Lab3_HMI.Models
+﻿@using System.ServiceModel
+@using Lab3_HMI.Models
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model Passenger
 
 @{
-    ViewData["Title"] = "Добавление пассажира";
+    ViewData["Title"] = "Редактирование пассажира";
 }
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/js/addBag.js"></script>
+    <link rel="stylesheet" href="~/css/styleAddEditBaggage.css">
 
-<form asp-controller="Home" asp-action="EditPassenger" asp-route-flightId="@Model.Flight.Id" method="post" class="form-horizontal">
-    <h3>Редактирование информации о пассажире <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
+
+</head>
+<form asp-controller="Home" asp-action="EditPassenger" asp-route-oldPassengerId="@Model.Id" asp-route-flightId="@Model.Flight.Id" method="post" class="form-horizontal">
+    <h3>Редактирование информации о пассажире <span class="glyphicon glyphicon-edit"></span></h3>
     <hr />
+
     <div asp-validation-summary="All" class="text-danger"></div>
     <input type="hidden" value="@Model.Id" asp-for="Id" />
     <div class="form-group">
@@ -32,6 +43,150 @@
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
     </div>
+
+    <div class="form-group">
+        <h3 class="col-md-4 control-label">Багажный отсек</h3>
+    </div>
+    @if (Model.Baggage.Count == 0)
+    {
+        <div class="form-group">
+            <p>Багаж отсутствует</p>
+
+            <div class="form-group">
+                <button id="btnAddBag" type="button"
+                        onclick="addRow();" class="btn btn-default">
+                    <img class="addButton" src="~/images/addBaggage.png">
+                </button>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <fieldset>
+                        <table class="bags" style="visibility:hidden">
+                            <thead>
+                                <tr>
+                                    <td>
+                                        Тип
+                                    </td>
+                                    <td>
+                                        Вес
+                                    </td>
+                                    <td>
+                                        Высота
+                                    </td>
+                                    <td>
+                                        Ширина
+                                    </td>
+                                    <td>
+                                        Глубина
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbBaggage"></tbody>
+                        </table>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <div class="col-md-10">
+                <fieldset>
+                    <table class="bags">
+                        <thead>
+                            <tr>
+                                <td style="width: 30px"></td>
+                                <td>
+                                    Тип
+                                </td>
+                                <td>
+                                    Вес
+                                </td>
+                                <td>
+                                    Высота
+                                </td>
+                                <td>
+                                    Ширина
+                                </td>
+                                <td>
+                                    Длина
+                                </td>
+                            </tr>
+                        </thead>
+
+                        @for (var i = 0; i < Model.Baggage.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <span>@(i + 1)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" value="@Model.Baggage[i].Type">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" value="@Model.Baggage[i].Weight">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" value="@Model.Baggage[i].Width">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" value="@Model.Baggage[i].Height">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            <input type="text" value="@Model.Baggage[i].Depth">
+                                            <span class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="" class="glyphicon glyphicon-trash"/>
+                                </td>
+                            </tr>
+                                }
+
+                        <tbody id="tbBaggage"></tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button id="btnAddBag" type="button"
+                    onclick="addRow();" class="btn btn-default">
+                <img class="addButton" src="~/images/addBaggage.png">
+            </button>
+        </div>
+    }
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId">Назад</a>
@@ -39,6 +194,34 @@
         </div>
     </div>
 </form>
+<script language="javascript" type="text/javascript">
 
+    function addRow() {
+        @{
+                Model.Baggage.Add(new Baggage());
+            }
 
+        $('.bags').css('visibility', 'visible');
 
+        var index = $("#tbBaggage").children("tr").length;
+
+        var indexCell = "<td style='display:none'><input name='Baggage.Index' type='hidden' value='" + index + "' /></td>";
+        var typeCell = "<td><input class='bStyle' id='Type" + index + "' name='Baggage[" + index + "].Type' type='text' value='' /></td>";
+        var weightCell = "<td><input class='bStyle' id='Weight" + index + "' name='Baggage[" + index + "].Weight' type='text' value='' /></td>";
+        var heightCell = "<td><input class='bStyle' id='Height" + index + "' name='Baggage[" + index + "].Height' type='text' value='' /></td>";
+        var widthCell = "<td><input class='bStyle' id='Width" + index + "' name='Baggage[" + index + "].Width' type='text' value='' /></td>";
+        var depthCell = "<td><input class='bStyle' id='Depth" + index + "' name='Baggage[" + index + "].Depth' type='text' value='' /></td>";
+
+        var removeCell = "<td><a id='btnAddBag'  class='glyphicon glyphicon-trash' type='button' onclick='removeRow(" + index + ");' /></td>";
+
+        var newRow = "<tr id='trBaggage" + index + "'>" +
+            indexCell + typeCell + weightCell + heightCell + widthCell + depthCell + removeCell + "</tr>";
+        $("#tbBaggage").append(newRow);
+    }
+
+    function removeRow(id) {
+        var controlToBeRemoved = "#trBaggage" + id;
+        $(controlToBeRemoved).remove();
+    }
+
+</script>

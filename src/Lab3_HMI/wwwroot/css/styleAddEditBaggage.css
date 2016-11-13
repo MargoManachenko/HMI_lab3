@@ -1,0 +1,22 @@
+﻿        .addButton {
+            border: none;
+            width: 70px;
+            height: 70px;
+        }
+
+        .table {
+            border: solid;
+        }
+
+        .bStyle {
+            width: 75px;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        table.bags td {
+            text-align: center;
+        }
+        #btnAddBag {
+            margin-left: 120px;
+        }

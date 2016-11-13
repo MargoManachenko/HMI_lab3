@@ -48,7 +48,7 @@ namespace Lab3_HMI.Controllers
 
                 foreach (var bag in passenger.Baggage)
                 {
-                   bag.Passenger = passenger;
+                    bag.Passenger = passenger;
                     _db.Baggages.Add(bag);
                 }
                 _db.Passengers.Add(passenger);
@@ -64,11 +64,10 @@ namespace Lab3_HMI.Controllers
         [HttpGet]
         public IActionResult EditPassenger(int passengerId)
         {
-            var passenger = _db.Passengers.Include(p => p.Flight).Single(p => p.Id == passengerId);
+            var passenger = _db.Passengers.Include(p => p.Flight).Include(n => n.Baggage).Single(p => p.Id == passengerId);
             ViewBag.FlightId = passenger.Flight.Id;
             return View(passenger);
         }
-
 
         [HttpPost]
         public IActionResult EditPassenger(Passenger passenger, int flightId)
@@ -82,10 +81,48 @@ namespace Lab3_HMI.Controllers
             return View(passenger);
         }
 
+        //complite mess
+        //[HttpPost]
+        //public IActionResult EditPassenger(Passenger newPassenger, int oldPassengerId, int flightId)
+        //{
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var oldBaggage = _db.Baggages.Where(b => b.Passenger.Id == oldPassengerId).ToList();
+        //        var oldPassanger = _db.Passengers.Single(p => p.Id == oldPassengerId);
+
+        //        foreach (var oldBag in oldBaggage)
+        //        {
+        //            _db.Baggages.Remove(oldBag);
+        //        }
+
+        //        _db.Passengers.Remove(oldPassanger);
+
+        //        _db.SaveChanges();
+
+
+        //        foreach (var newBag in newPassenger.Baggage)
+        //        {
+        //            _db.Baggages.Add(newBag);
+        //        }
+
+        //        _db.Passengers.Add(newPassenger);
+        //        _db.SaveChanges();
+
+        //        return RedirectToAction(nameof(PassengersOfFlight), new { flightId });
+        //    }
+        //    return View(newPassenger);
+        //}
+
 
         public IActionResult DeletePassenger(int passengerId, int flightId)
         {
             var passenger = _db.Passengers.Single(p => p.Id == passengerId);
+            var listOfBaggages = _db.Baggages.Where(p => p.Passenger == passenger);
+            foreach (var bag in listOfBaggages)
+            {
+                _db.Baggages.Remove(bag);
+            }
             _db.Passengers.Remove(passenger);
             _db.SaveChanges();
             return RedirectToAction(nameof(PassengersOfFlight), new { flightId = flightId });

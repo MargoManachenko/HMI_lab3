@@ -28,16 +28,28 @@
                     <td>@passenger.Surname</td>
                     <td>@passenger.Name</td>
                     <td>@passenger.Phone</td>
-                    @if (passenger.Baggage == null)
+
+                    @if (passenger.Baggage.Count == 0)
                     {
                         <td>Отсутствует</td>
                     }
                     else
                     {
-                        @for (var i = 0; i < passenger.Baggage.Count; i++)
-                        {
-                            <td><p>Тип : @passenger.Baggage[i].Type</p><p> Вес : @passenger.Baggage[i].Weight</p></td>
-                        }
+                        <td>
+                            <div class="form-group">
+                                
+                                @for (var i = 0; i < passenger.Baggage.Count; i++)
+                                {
+                                    <p>
+                                        Тип : @passenger.Baggage[i].Type,
+                                        Вес : @passenger.Baggage[i].Weight <br/>
+                                        Параметры: @passenger.Baggage[i].Width X @passenger.Baggage[i].Height X @passenger.Baggage[i].Depth
+                                    </p>
+
+                                }
+
+                            </div>
+                        </td>
                     }
 
                     <td><a asp-action="" class="glyphicon glyphicon-user" title="Пассажиры рейса"></a></td>
