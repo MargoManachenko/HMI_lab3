@@ -1,19 +1,24 @@
-﻿@using Lab3_HMI.Models
-@using Microsoft.EntityFrameworkCore.Metadata.Internal
-@model List<Flight>
-
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model SearchBySurnameViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Будущие рейсы";
 }
-<h3>Поиск багажа по фамилии пассажира</h3>
 
+<h3>Список текущих рейсов</h3>
+
+<form asp-controller="Home" asp-action="SearchBySurname" method="post" role="search">
+    <div class="input-group">
+        <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+        <div class="input-group">
+            <input type="text" asp-for="SurnameToSearch" class="form-control" aria-label="Amount (to the nearest dollar)">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </span>
+        </div>
+    </div>
+</form>
 <div>
-    <a asp-action="AddFlight" class="btn btn-success" style="margin-top: 30px;">
-        <span class="glyphicon glyphicon-plus"></span>  Добавить рейс
-    </a>
-</div>
-<div>
-    @if (Model != null && Model.Count != 0)
+    @if (Model.Flights != null && Model.Flights.Count != 0)
     {
         var count = 1;
         <table>
@@ -27,7 +32,7 @@
                 <td><b>Точка прибытия</b></td>
                 <td><b>Время прибытия</b></td>
             </tr>
-            @foreach (var flight in Model)
+            @foreach (var flight in Model.Flights)
                 {
                 <tr>
                     <td>@count.</td>

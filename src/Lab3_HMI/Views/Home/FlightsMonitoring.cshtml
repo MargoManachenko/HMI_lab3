@@ -1,20 +1,37 @@
-﻿@{
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@{
     ViewData["Title"] = "Мониториг багажа";
 }
 
-<form asp-controller="Home" asp-action="AddFlight" method="post" class="form-horizontal">
-    <h3>Мониторинг багажа<span class="glyphicon glyphicon-plane planeIcon"></span></h3>
-    <hr/>
-        <input type="text" class="search-query" placeholder="Search">
-    
-    <ul class="nav nav-tabs nav-justified">
-        <li><a class="btn btn-default" asp-action="">Прибывшие рейсы</a></li>
-    </ul>
-    <a class="btn btn-default" asp-action="">Будущие рейсы</a>
-    <a class="btn btn-default" asp-action="">В пути</a>
-
-
-
-</form>
-
-
+<div style="padding-top: 50px"> 
+<nav class="navbar navbar-default" style="height: 70px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div style="margin-top: 5px">
+                <img alt="Brand" src="~/images/futureFlight2.png" style="width: 60px">
+                <a asp-action="FutureFlights" style="margin-left: 15px">Будущие рейсы</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-default" style="height: 70px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div style="margin-top: 5px">
+                <img alt="Brand" src="~/images/inFlight.png" style="width: 60px">
+                <a asp-action="CurrentFlights" style="margin-left: 15px">Рейсы в пути</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-default" style="height: 70px">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <div style="margin-top: 5px">
+                <img alt="Brand" src="~/images/inHangar.png" style="width: 60px">
+                <a asp-action="PastFlights" style="margin-left: 15px">Прибывшие рейсы</a>
+            </div>
+        </div>
+    </div>
+</nav>
+    </div>

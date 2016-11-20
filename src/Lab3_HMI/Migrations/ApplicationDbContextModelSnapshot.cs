@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Lab3_HMI.Data;
 
-namespace Lab3_HMI.Data.Migrations
+namespace Lab3_HMI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161112202221_FifthMigration")]
-    partial class FifthMigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -122,9 +121,7 @@ namespace Lab3_HMI.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
-                    b.Property<int?>("FlightId");
+                    b.Property<int>("FlightId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -259,7 +256,8 @@ namespace Lab3_HMI.Data.Migrations
                 {
                     b.HasOne("Lab3_HMI.Models.Flight", "Flight")
                         .WithMany("Passengers")
-                        .HasForeignKey("FlightId");
+                        .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

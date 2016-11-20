@@ -1,0 +1,39 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model List<Flight>
+@{
+    ViewData["Title"] = "Результаты поиска багажа";
+}
+
+<h3>Результаты поиска багажа ...</h3>
+
+
+
+
+
+
+<style>
+    table {
+        margin-top: 40px;
+    }
+
+    td {
+        margin-right: 10px;
+        padding-right: 40px;
+        padding-top: 10px;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    .planeIcon {
+        -webkit-transform: rotate(90deg); /* Chrome y Safari */
+        -moz-transform: rotate(90deg); /* Firefox */
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); /* Internet Explorer */
+        -o-transform: rotate(90deg); /* Opera */
+        display: inline-block;
+        padding-left: 8px;
+        vertical-align: text-top;
+        text-indent: 0px;
+    }
+</style>

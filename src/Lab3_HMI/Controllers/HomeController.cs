@@ -42,9 +42,11 @@ namespace Lab3_HMI.Controllers
 
         public IActionResult AddPassengerToFlight(Passenger passenger, int flightId)
         {
-            if (ModelState.IsValid)
+            passenger.Flight = _db.Flights.Single(f => f.Id == flightId);
+
+            if (passenger.Name != null && passenger.Surname != null
+                && passenger.Phone != null && passenger.Flight != null)
             {
-                passenger.Flight = _db.Flights.Single(f => f.Id == flightId);
 
                 foreach (var bag in passenger.Baggage)
                 {
@@ -133,19 +135,17 @@ namespace Lab3_HMI.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult FlightsMonitoring()
         {
             return View();
         }
-
-
 
         [HttpGet]
         public IActionResult AddFlight()
         {
             return View();
         }
-
 
         [HttpPost]
         public IActionResult AddFlight(Flight flight)
@@ -217,7 +217,97 @@ namespace Lab3_HMI.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult About()
+        [HttpGet]
+        public IActionResult FutureFlights()
+        {
+            var currentDateTime = DateTime.Now;
+
+            var model = new SearchBySurnameViewModel { Flights = new List<Flight>() };
+
+            foreach (var flight in _db.Flights)
+            {
+                var i = DateTime.Compare(flight.DateOfStart, currentDateTime);
+                if (i > 0)
+                {
+                    model.Flights.Add(flight);
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult CurrentFlights()
+        {
+            var currentDateTime = DateTime.Now;
+
+            var model = new SearchBySurnameViewModel { Flights = new List<Flight>() };
+
+            foreach (var flight in _db.Flights)
+            {
+                var i = DateTime.Compare(flight.DateOfStart, currentDateTime);
+                var j = DateTime.Compare(flight.DateOfFinish, currentDateTime);
+                if (i <= 0  && j >= 0)
+                {
+                    model.Flights.Add(flight);
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult PastFlights()
+        {
+            var currentDateTime = DateTime.Now;
+
+            var model = new SearchBySurnameViewModel { Flights = new List<Flight>() };
+            
+            foreach (var flight in _db.Flights)
+            {
+                var i = DateTime.Compare(flight.DateOfFinish, currentDateTime);
+
+                if (i < 0)
+                {
+                    model.Flights.Add(flight);
+                }
+            }
+            return View(model);
+        }
+
+        public IActionResult SearchBySurname(string SurnameToSearch)
+        {
+            var flights = new List<Flight>();
+
+            if (SurnameToSearch != null)
+            {
+                if (SurnameToSearch.Trim() != "")
+                {
+                    var searchStr = SurnameToSearch.Trim().ToLower();
+
+                    foreach (var passenger in _db.Passengers)
+                    {
+                        if (passenger.Surname.ToLower() == searchStr)
+                        {
+                            flights.Add(passenger.Flight);
+                        }
+                        else if (passenger.Surname.Contains(searchStr))
+                        {
+                            flights.Add(passenger.Flight);
+                        }
+                    }
+                }
+                return View(flights);
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Temp()
+        {
+
+            return View();
+        }
+
+
+        public IActionResult About(string surname)
         {
             ViewData["Message"] = "Your application description page.";
 

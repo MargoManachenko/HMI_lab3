@@ -26,7 +26,8 @@ namespace Lab3_HMI.Models
         [Display(Name = "Телефон")]
         public string Phone { get; set; }
 
-        public virtual Flight Flight { get; set; }
+        [Required]
+        public Flight Flight { get; set; }
 
         public virtual List<Baggage> Baggage { get; set; }
 

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Lab3_HMI.Data;
 
-namespace Lab3_HMI.Data.Migrations
+namespace Lab3_HMI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161112203432_Sixth")]
-    partial class Sixth
+    [Migration("20161120185344_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -122,9 +122,7 @@ namespace Lab3_HMI.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
-                    b.Property<int?>("FlightId");
+                    b.Property<int>("FlightId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -259,7 +257,8 @@ namespace Lab3_HMI.Data.Migrations
                 {
                     b.HasOne("Lab3_HMI.Models.Flight", "Flight")
                         .WithMany("Passengers")
-                        .HasForeignKey("FlightId");
+                        .HasForeignKey("FlightId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
