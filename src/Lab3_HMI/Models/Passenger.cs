@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab3_HMI.Models
 {
-    public class Passenger
+    public sealed class Passenger
     {
         public Passenger()
         {
@@ -29,7 +29,7 @@ namespace Lab3_HMI.Models
         [Required]
         public Flight Flight { get; set; }
 
-        public virtual List<Baggage> Baggage { get; set; }
+        public List<Baggage> Baggage { get; set; }
 
 
     }

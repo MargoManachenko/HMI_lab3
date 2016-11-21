@@ -1,12 +1,55 @@
 ﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
-@model List<Flight>
+
+@model List<Passenger>
 @{
     ViewData["Title"] = "Результаты поиска багажа";
 }
 
-<h3>Результаты поиска багажа ...</h3>
+<h3>Результаты поиска багажа</h3>
+
+<div class="form-group">
+    @if (Model != null && Model.Count != 0)
+    {
 
 
+        @foreach (var passanger in Model)
+        {
+            var count = 1;
+
+            <p>@count.</p>
+            <p><b>Пассажир </b> @passanger.Surname @passanger.Name</p>
+            <p><b>Контактный телефон </b> @passanger.Phone</p>
+            <h4><b>Полет</b></h4>
+            <p><b>№ рейса </b></p>
+            <p><b>Название авиакомпании </b>@passanger.Flight.CompanyName</p>
+            <p><b>Тип самолета </b>@passanger.Flight.AircraftType</p>
+            <p><b>Время отправки </b>@passanger.Flight.DateOfStart</p>
+            <p><b>Точка отправки </b>@passanger.Flight.DepaturePoint</p>
+            <p><b>Точка прибытия </b>@passanger.Flight.ArrivalPoint</p>
+            <p><b>Время прибытия </b>@passanger.Flight.DateOfFinish</p>
+            <h4><b>Багаж</b></h4>
+            @if (passanger.Baggage.Count == 0 || passanger.Baggage == null)
+            {
+                <p>Отсутствует</p>
+            }
+            else
+            {
+                @for (var i = 0; i < passanger.Baggage.Count; i++)
+                {
+                    <p>
+                        Тип: @passanger.Baggage[i].Type,
+                        Вес: @passanger.Baggage[i].Weight <br />
+                        Параметры: @passanger.Baggage[i].Width X @passanger.Baggage[i].Height X @passanger.Baggage[i].Depth
+                    </p>
+                }
+            }
+        }
+    }
+    else
+    {
+        <h3>В системе отсутствуют данные о пасажире</h3>
+    }
+</div>
 
 
 

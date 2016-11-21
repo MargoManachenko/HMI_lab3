@@ -275,7 +275,7 @@ namespace Lab3_HMI.Controllers
 
         public IActionResult SearchBySurname(string SurnameToSearch)
         {
-            var flights = new List<Flight>();
+            var result = new List<Passenger>();
 
             if (SurnameToSearch != null)
             {
@@ -283,19 +283,18 @@ namespace Lab3_HMI.Controllers
                 {
                     var searchStr = SurnameToSearch.Trim().ToLower();
 
-                    foreach (var passenger in _db.Passengers)
+                    var passengers = _db.Passengers.Include(p => p.Flight).Include(p => p.Baggage).ToList();
+
+                    foreach (var passenger in passengers)
                     {
-                        if (passenger.Surname.ToLower() == searchStr)
+                        if (passenger.Surname.ToLower() == searchStr || passenger.Surname.Contains(searchStr))
                         {
-                            flights.Add(passenger.Flight);
+                            result.Add(passenger);
                         }
-                        else if (passenger.Surname.Contains(searchStr))
-                        {
-                            flights.Add(passenger.Flight);
-                        }
+                        
                     }
                 }
-                return View(flights);
+                return View(result);
             }
             return RedirectToAction("Index");
         }
