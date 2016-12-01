@@ -5,7 +5,6 @@
     ViewData["Title"] = "Добавление пассажира";
 }
 
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,7 +12,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="~/js/addBag.js"></script>
     <link rel="stylesheet" href="~/css/styleAddEditBaggage.css">
-
     <script language="javascript" type="text/javascript">
 
         function addRow() {
@@ -26,11 +24,11 @@
             var index = $("#tbBaggage").children("tr").length;
 
             var indexCell = "<td style='display:none'><input name='Baggage.Index' type='hidden' value='" + index + "' /></td>";
-            var typeCell = "<td><input class='bStyle' id='Type" + index + "' name='Baggage[" + index + "].Type' type='text' value='' /></td>";
-            var weightCell = "<td><input class='bStyle' id='Weight" + index + "' name='Baggage[" + index + "].Weight' type='text' value='' /></td>";
-            var heightCell = "<td><input class='bStyle' id='Height" + index + "' name='Baggage[" + index + "].Height' type='text' value='' /></td>";
-            var widthCell = "<td><input class='bStyle' id='Width" + index + "' name='Baggage[" + index + "].Width' type='text' value='' /></td>";
-            var depthCell = "<td><input class='bStyle' id='Depth" + index + "' name='Baggage[" + index + "].Depth' type='text' value='' /></td>";
+            var typeCell = "<td><input class='bStyle' id='Type" + index + "' name='Baggage[" + index + "].Type' type='number' autocomplete='off' min='0' value='' /></td>";
+            var weightCell = "<td><input class='bStyle' id='Weight" + index + "' name='Baggage[" + index + "].Weight' type='number' value='' autocomplete='off' min='0'/></td>";
+            var heightCell = "<td><input class='bStyle' id='Height" + index + "' name='Baggage[" + index + "].Height' type='number' value='' autocomplete='off' min='0'/></td>";
+            var widthCell = "<td><input class='bStyle' id='Width" + index + "' name='Baggage[" + index + "].Width' type='number'autocomplete='off' min='0' value='' /></td>";
+            var depthCell = "<td><input class='bStyle' id='Depth" + index + "' name='Baggage[" + index + "].Depth' type='number' autocomplete='off' min='0' value='' /></td>";
 
             var removeCell = "<td><a id='btnAddBag'  class='glyphicon glyphicon-trash' type='button' onclick='removeRow(" + index + ");' /></td>";
 
@@ -45,12 +43,10 @@
         }
 
     </script>
-
 </head>
-
+<div class="addContainer">
 <form asp-controller="Home" asp-action="AddPassengerToFlight" asp-route-flightId="@ViewBag.FlightId" method="post" class="form-horizontal">
     <h3>Добавление нового пассажира <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
-
     <hr />
     <h3>Личные данные</h3>
     <div asp-validation-summary="All" class="text-danger"></div>
@@ -75,36 +71,39 @@
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div>
     </div>
-
     <h3>Багаж</h3>
-
     <div class="form-group">
         <button id="btnAddBag" type="button"
                 onclick="addRow();" class="btn btn-default">
             <img class="addButton" src="~/images/addBaggage.png">
         </button>
     </div>
-
     <div class="form-group">
         <div class="col-md-10">
             <fieldset>
                 <table class="bags" style="visibility:hidden">
                     <thead>
                         <tr>
-                            <td class="">
-                                Тип
+                            <td>
+                                <strong>Тип</strong>
+
                             </td>
                             <td>
-                                Вес
+                                <strong>Вес</strong>
+
                             </td>
                             <td>
-                                Высота
+                                <strong>Высота</strong>
+
                             </td>
                             <td>
-                                Ширина
+                                <strong>
+                                    Ширина
+                                </strong>
                             </td>
                             <td>
-                                Глубина
+                                <strong>Глубина</strong>
+
                             </td>
                         </tr>
                     </thead>
@@ -113,7 +112,6 @@
             </fieldset>
         </div>
     </div>
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId">Назад</a>
@@ -121,11 +119,32 @@
         </div>
     </div>
 </form>
+</div>
 
+<style>
+    .bStyle {
+        display: block;
+        width: 80%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        max-width: 250px;
+        margin-left: 20%;
+    }
 
-
-
-
-
-
-
+    .bags {
+        margin-left: 18%;
+    }
+    .addContainer {
+        margin-left: 18%;
+        width: 80%;
+    }
+</style>
