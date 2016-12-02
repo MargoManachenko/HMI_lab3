@@ -1,8 +1,6 @@
-﻿@using System.ServiceModel
-@using Lab3_HMI.Models
+﻿@using Lab3_HMI.Models
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model Passenger
-
 @{
     ViewData["Title"] = "Редактирование пассажира";
 }
@@ -13,7 +11,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="~/js/addBag.js"></script>
     <link rel="stylesheet" href="~/css/styleAddEditBaggage.css">
-
 
 </head>
 <form asp-controller="Home" asp-action="EditPassenger" asp-route-oldPassengerId="@Model.Id" asp-route-flightId="@Model.Flight.Id" method="post" class="form-horizontal">
@@ -63,7 +60,7 @@
             <div class="form-group">
                 <div class="col-md-10">
                     <fieldset>
-                        <table class="bags" style="visibility:hidden">
+                        <table class="bags" style="visibility: hidden">
                             <thead>
                                 <tr>
                                     <td>
@@ -95,10 +92,11 @@
         <div class="form-group">
             <div class="col-md-10">
                 <fieldset>
-                    <table class="bags">
+                    <table class="bags" style="margin-left: 100px;">
                         <thead>
                             <tr>
-                                <td style="width: 30px"></td>
+                                <td>
+                                </td>
                                 <td>
                                     Тип
                                 </td>
@@ -119,18 +117,13 @@
 
                         @for (var i = 0; i < Model.Baggage.Count; i++)
                         {
-                            <tr>
+                            <tr style="padding-left: 50px;">
                                 <td>
-                                    <div class="form-group">
-                                        <div class="col-md-10">
-                                            <span>@(i + 1)</span>
-                                        </div>
-                                    </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
                                         <div class="col-md-10">
-                                            <input type="text" value="@Model.Baggage[i].Type">
+                                            <input type="text" value="@Model.Baggage[i].Type" class="bStyle" style="width: 100px">
                                             <span class="text-danger"></span>
                                         </div>
                                     </div>
@@ -138,7 +131,7 @@
                                 <td>
                                     <div class="form-group">
                                         <div class="col-md-10">
-                                            <input type="text" value="@Model.Baggage[i].Weight">
+                                            <input type="text" value="@Model.Baggage[i].Weight" class="bStyle">
                                             <span class="text-danger"></span>
                                         </div>
                                     </div>
@@ -146,7 +139,7 @@
                                 <td>
                                     <div class="form-group">
                                         <div class="col-md-10">
-                                            <input type="text" value="@Model.Baggage[i].Width">
+                                            <input type="text" value="@Model.Baggage[i].Width" class="bStyle">
                                             <span class="text-danger"></span>
                                         </div>
                                     </div>
@@ -154,7 +147,7 @@
                                 <td>
                                     <div class="form-group">
                                         <div class="col-md-10">
-                                            <input type="text" value="@Model.Baggage[i].Height">
+                                            <input type="text" value="@Model.Baggage[i].Height" class="bStyle">
                                             <span class="text-danger"></span>
                                         </div>
                                     </div>
@@ -162,16 +155,16 @@
                                 <td>
                                     <div class="form-group">
                                         <div class="col-md-10">
-                                            <input type="text" value="@Model.Baggage[i].Depth">
+                                            <input type="text" value="@Model.Baggage[i].Depth" class="bStyle">
                                             <span class="text-danger"></span>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="" class="glyphicon glyphicon-trash"/>
+                                    <a href="" class="glyphicon glyphicon-trash" />
                                 </td>
                             </tr>
-                                }
+                        }
 
                         <tbody id="tbBaggage"></tbody>
                     </table>
@@ -189,23 +182,79 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId">Назад</a>
-            <button type="submit" class="btn btn-success" style="margin-left:120px;">Сохранить</button>
+            <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId"><span aria-hidden="true">&larr; </span> Назад</a>
+            <button type="submit" class="btn btn-success" style="margin-left: 120px;">Сохранить</button>
         </div>
     </div>
 </form>
+<style>
+    .bStyle {
+        display: block;
+        width: 100px !important;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        max-width: 250px;
+        margin-left: 20%;
+    }
+
+    .bags {
+        margin-left: 18%;
+    }
+
+    .addContainer {
+        margin-left: 18%;
+        width: 80%;
+    }
+</style>
+<style>
+    .bStyle {
+        display: block;
+        width: 80%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        max-width: 250px;
+        margin-left: 20%;
+    }
+
+    .bags {
+        margin-left: 18%;
+    }
+
+    .addContainer {
+        margin-left: 18%;
+        width: 80%;
+    }
+</style>
 <script language="javascript" type="text/javascript">
 
     function addRow() {
         @{
-                Model.Baggage.Add(new Baggage());
-            }
+            Model.Baggage.Add(new Baggage());
+        }
 
         $('.bags').css('visibility', 'visible');
 
         var index = $("#tbBaggage").children("tr").length;
 
-        var indexCell = "<td style='display:none'><input name='Baggage.Index' type='hidden' value='" + index + "' /></td>";
+        var indexCell = "<td><input name='Baggage.Index' type='hidden' value='" + index + "' /></td>";
         var typeCell = "<td><input class='bStyle' id='Type" + index + "' name='Baggage[" + index + "].Type' type='text' value='' /></td>";
         var weightCell = "<td><input class='bStyle' id='Weight" + index + "' name='Baggage[" + index + "].Weight' type='text' value='' /></td>";
         var heightCell = "<td><input class='bStyle' id='Height" + index + "' name='Baggage[" + index + "].Height' type='text' value='' /></td>";
@@ -214,7 +263,7 @@
 
         var removeCell = "<td><a id='btnAddBag'  class='glyphicon glyphicon-trash' type='button' onclick='removeRow(" + index + ");' /></td>";
 
-        var newRow = "<tr id='trBaggage" + index + "'>" +
+        var newRow = "<tr id='trBaggage" + index + "' >" +
             indexCell + typeCell + weightCell + heightCell + widthCell + depthCell + removeCell + "</tr>";
         $("#tbBaggage").append(newRow);
     }

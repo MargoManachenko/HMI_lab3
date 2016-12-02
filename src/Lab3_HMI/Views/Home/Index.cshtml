@@ -16,13 +16,16 @@
 </head>
 
 
-<h3>Поиск багажа по фамилии пассажира</h3>
+
 
 <div class="container">
+    </br>
+    <h2><center>Поиск багажа по фамилии пассажира</center>
+    </h2> <br/>
     <div class="row">
         <div class="col-md-12">
             <div class="input-group" id="adv-search">
-                <input type="text" class="form-control" placeholder="Поиск по фамили пассажира" />
+                <input type="text" name="passSurname" class="form-control" placeholder="Введите фамилию..."/>
                 <div class="input-group-btn">
                     <div class="btn-group" role="group">
                         <div class="dropdown dropdown-lg">
@@ -41,13 +44,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="contain">Поиск по номеру багажа</label>
-                                        <input class="form-control" type="text" />
+                                        <input class="form-control" type="text"/>
                                     </div>
-                                   <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                    @Html.ActionLink("Search", "Search", "Travel", null, new {@class = "btn btn-primary", @id = "roundBtn"})
                                 </form>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        @Html.ActionLink("Search", "SearchByPassSurname", "Travel", null, new {@class = "btn btn-primary"})
                     </div>
                 </div>
             </div>
@@ -92,7 +95,7 @@
                     <td>
                         <a class="glyphicon glyphicon-user tool_tip" asp-action="PassengersOfFlight" asp-route-flightId="@flight.Id" style="color:teal;">
                             <span class="custom info">
-                                <img src="~/images/Info.png" alt="Информация" style="margin-left:-150px;" height="48" width="48" />
+                                <img src="~/images/Info.png" alt="Информация" style="margin-left:-150px" height="48" width="48" />
                                 <em>Информация</em>
                                 Просмотр информации о пассажирах, багаж которых находится в данном рейсе
                             </span>
@@ -117,13 +120,6 @@
     table {
         margin-top: 40px;
     }
-
-    /*td {
-        margin-right: 10px;
-        padding-right: 40px;
-        padding-top: 10px;
-    }*/
-
     a {
         cursor: pointer;
     }
@@ -155,6 +151,18 @@
         max-width: 100%;
     }
 
+    /*.form-group {
+        margin-top: 5%;
+        margin-bottom: 10%;
+    }*/
+    .form-horizontal {
+
+        padding: 5% ;
+        height: 50%;
+
+    }
+    #roundBtn {
+        border-radius: 4px !important;
     }
 </style>
 <script>
