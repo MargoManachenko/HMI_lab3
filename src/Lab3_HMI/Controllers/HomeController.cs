@@ -18,6 +18,11 @@ namespace Lab3_HMI.Controllers
             _db = db;
         }
 
+        public IActionResult HelloPage()
+        {
+            return View();
+        }
+
         public IActionResult Index(string searchString = null, int sortOrder = 0, int sortNum = 0,
             string[] boxFilter = null,
             bool? isAdded = false, bool? isEdit = false)
