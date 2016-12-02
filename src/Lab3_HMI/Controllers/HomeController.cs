@@ -18,9 +18,69 @@ namespace Lab3_HMI.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString = null, int sortOrder = 0, int sortNum = 0,
+            string[] boxFilter = null,
+            bool? isAdded = false, bool? isEdit = false)
         {
-            return View(_db.Flights.ToList());
+            ViewBag.IsAdded = isAdded;
+            ViewBag.IsEdit = isEdit;
+
+            var listToView = _db.Flights.ToList();
+            if (searchString != null)
+            {
+                if (searchString.Trim().ToLower() == "turkishes")
+                {
+                    ViewBag.IsInvalid = true;
+                    return View(null);
+                }
+                int num;
+                if (int.TryParse(searchString, out num))
+                {
+                    listToView = listToView.Where(f => f.Id.Equals(Convert.ToInt32(searchString))).ToList();
+                }
+                else
+                {
+                    listToView =
+                        listToView.Where(f => f.CompanyName.Trim().ToLower().Contains(searchString.Trim().ToLower()))
+                            .ToList();
+                }
+                ViewBag.SearchString = searchString;
+            }
+
+            if (sortOrder == 0)
+            {
+                if (sortNum != 0)
+                {
+                    switch (sortNum)
+                    {
+                        case 1:
+                            listToView = listToView.OrderBy(f => f.CompanyName).ToList();
+                            break;
+                        case 2:
+                            listToView = listToView.OrderBy(f => f.DateOfFinish).ToList();
+                            break;
+                        case 3:
+                            listToView = listToView.OrderBy(f => f.DateOfStart).ToList();
+                            break;
+                        case 4:
+                            listToView = listToView.OrderBy(f => f.AircraftType).ToList();
+                            break;
+                    }
+                    ViewBag.SortNum = sortNum;
+                }
+            }
+            if (boxFilter != null && boxFilter.Length != 0)
+                           {
+                listToView = listToView.Where(f => boxFilter.Contains(f.AircraftType)).ToList();
+                List < int > list = new List<int>();
+                                if (boxFilter.Contains("Пассажирский"))
+                    list.Add(1);
+                                if (boxFilter.Contains("Грузовой"))
+                    list.Add(2);
+                ViewBag.Checked = list.ToArray();
+                            }
+           
+                       return View(listToView);
         }
 
         public IActionResult PassengersOfFlight(int flightId)
@@ -154,7 +214,7 @@ namespace Lab3_HMI.Controllers
             {
                 _db.Flights.Add(flight);
                 _db.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { isAdded = true });
             }
             return View(flight);
         }
@@ -203,7 +263,7 @@ namespace Lab3_HMI.Controllers
                     }
                     _db.SaveChanges();
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { isEdit = true });
             }
             return View(flight);
         }

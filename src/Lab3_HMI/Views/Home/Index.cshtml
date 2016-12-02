@@ -6,8 +6,6 @@
 }
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-
     <link rel="stylesheet" href="~/css/table.css" />
     <link rel="stylesheet" href="~/css/hints.css" />
     <link rel="stylesheet" href="~/css/search.css" />
@@ -15,42 +13,78 @@
     <script src="~/js/flights.js"></script>
 </head>
 
-
-
+@if (ViewBag.IsAdded)
+{
+    <div id="addNotice" class="notice">
+        <p>Рейс успешно добавлен в базу!</p>
+    </div>
+}
+else if (ViewBag.IsEdit)
+{
+    <div id="editNotice" class="notice">
+        <p>Рейс был успешно обновлен!</p>
+    </div>
+}
 
 <div class="container">
-    </br>
-    <h2><center>Поиск багажа по фамилии пассажира</center>
-    </h2> <br/>
+    <br />
+
+    <h2>
+        <center>База данных рейсов</center>
+    </h2> <br />
     <div class="row">
         <div class="col-md-12">
             <div class="input-group" id="adv-search">
-                <input type="text" name="passSurname" class="form-control" placeholder="Введите фамилию..."/>
+                <div class="input-group-btn">
+                    <a asp-action="Index" class="btn btn-default">Показать все</a>
+                </div>
+                <input type="search" id="searchString" value="@ViewBag.SearchString" class="form-control" placeholder="Поиск номеру рейса, авиакомпании..." />
                 <div class="input-group-btn">
                     <div class="btn-group" role="group">
                         <div class="dropdown dropdown-lg">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
                             <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                <form class="form-horizontal" role="form">
+                                <form method="get" asp-action="Index" class="form-horizontal" role="form">
                                     <div class="form-group">
-                                        <label for="filter">Сортировать по</label>
-                                        <select class="form-control">
-                                            <option value="0" selected>Номеру рейса</option>
-                                            <option value="1">Названию компании</option>
-                                            <option value="2">Дате прибытия</option>
-                                            <option value="3">Дате отправления</option>
-                                            <option value="4">Типу самолета</option>
+                                        <label for="filter">Сортировка</label>
+                                        <select class="form-control" name="sortOrder">
+
+                                            <option value="0">По возростанию</option>
+                                            <option value="1">По убыванию</option>
+                                        </select>
+                                        <select class="form-control" name="sortNum">
+                                            <option criteria="0" value="0" selected>По номеру рейса</option>
+                                            <option criteria="1" value="1">По названию компании</option>
+                                            <option criteria="2" value="2">По дате прибытия</option>
+                                            <option criteria="3" value="3">По дате отправления</option>
+                                            <option criteria="4" value="4">По типу самолета</option>
                                         </select>
                                     </div>
+                                    <input type="submit" value="Сортировать" class="btn btn-primary" />
+                                    <div class="form-group">
+                                        <label for="contain">Фильтрация</label>
+                                        <div>
+                                            <p>Тип самолета</p>
+                                            <div class="checkbox-inline">
+                                                <input flag="1" type="checkbox" value="Пассажирский" name="boxFilter" /> Пассажирский
+
+                                            </div>
+                                            <div class="checkbox-inline">
+                                                <input flag="2" type="checkbox" value="Грузовой" name="boxFilter" /> Грузовой
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Фильтровать" class="btn btn-primary" />
                                     <div class="form-group">
                                         <label for="contain">Поиск по номеру багажа</label>
-                                        <input class="form-control" type="text"/>
+                                        <input class="form-control" type="text" />
                                     </div>
-                                    @Html.ActionLink("Search", "Search", "Travel", null, new {@class = "btn btn-primary", @id = "roundBtn"})
+                                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                 </form>
                             </div>
                         </div>
-                        @Html.ActionLink("Search", "SearchByPassSurname", "Travel", null, new {@class = "btn btn-primary"})
+                        <button type="button" class="btn btn-primary searchBtn"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                     </div>
                 </div>
             </div>
@@ -58,6 +92,7 @@
     </div>
 </div>
 
+<label id="errorSearch"></label>
 <div>
     <a asp-action="AddFlight" class="btn btn-success" style="margin-top: 30px; margin-left:20px;">
         <span class="glyphicon glyphicon-plus"></span>  Добавить рейс
@@ -81,7 +116,7 @@
             @foreach (var flight in Model)
                 {
                 <tr>
-                    <td>@count.</td>
+                    <td>@flight.Id.</td>
                     <td>@flight.CompanyName</td>
                     <td>@flight.AircraftType</td>
                     <td>@flight.DateOfStart</td>
@@ -106,20 +141,51 @@
                         <a asp-action="DeleteFlight" asp-route-flightId="@flight.Id" class="glyphicon glyphicon-trash" title="Удалить" style="color:crimson;"></a>
                     </td>
                 </tr>
-                count++;
             }
         </table>
     }
+    else if (ViewBag != null)
+    {
+        <center>
+            <h3>
+                В системе отсутствуют искомые данные о рейсах. Может быть Вы имели ввиду <a asp - action="Index" asp-route-searchString="Turkish"> Turkish</a>?
+            </h3>
+        </center>
+    }
     else
     {
-        <h3>В системе отсутствуют данные о рейсах</h3>
+        <h3>В системе отсутствуют искомые данные о рейсах</h3>
     }
 </div>
 
 <style>
+    .notice {
+        position: fixed;
+        z-index: 101;
+        width: 300px;
+        height: 50px;
+        margin-left: 30%;
+        padding: 15px 0 0 40px;
+        border-radius: 12px;
+    }
+
+
+    #addNotice {
+        background-color: greenyellow;
+    }
+
+    #editNotice {
+        background-color: yellow;
+    }
+
+    input[type=submit] {
+        margin-bottom: 15px;
+    }
+
     table {
         margin-top: 40px;
     }
+
     a {
         cursor: pointer;
     }
@@ -156,14 +222,36 @@
         margin-bottom: 10%;
     }*/
     .form-horizontal {
-
-        padding: 5% ;
+        padding: 5%;
         height: 50%;
-
     }
+    .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group {
+    margin-right: -1px;
+    height: 34px;
+}
     #roundBtn {
         border-radius: 4px !important;
     }
+
+    .input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        height: 34px;
+    }
+
+    .btn-group .btn {
+        border-radius: 0;
+        margin-left: -1px;
+        height: 34px;
+    }
+
+    input, select, textarea {
+        max-width: 100%;
+    }
+
+        select[name=sortNum] {
+            margin-top: 10px;
+        }
 </style>
 <script>
     $(document).ready(function (e) {
@@ -174,5 +262,45 @@
             $('.search-panel span#search_concept').text(concept);
             $('.input-group #search_param').val(param);
         });
+
+
+        setTimeout(function () {
+            $("#addNotice").hide("slow");
+        }, 3000);
+
+        setTimeout(function () {
+            $("#editNotice").hide("slow");
+        }, 3000);
+
+
+        $(".searchBtn").click(function () {
+            var searchString = $("#searchString").val();
+            if (searchString != null && searchString.length != 0)
+                location = "http://localhost:55917/?searchString=" + searchString;
+            else
+                $("#errorSearch").html("<span style='color:red;margin-left:350px;'>Введите значение для поиска</span>");
+        });
     });
 </script>
+
+
+
+@if (ViewBag.SortNum != null)
+{
+    <script>
+        var sortNum = "@ViewBag.SortNum";
+        $("option[criteria=" + sortNum + "]").attr("selected", true);
+    </script>
+}
+
+@if (ViewBag.Checked != null)
+{
+    foreach (var item in ViewBag.Checked)
+    {
+
+        <script>
+            var boxFlag = "@item";
+            $("input[flag=" + boxFlag + "]").attr("checked", true);
+        </script>
+    }
+}

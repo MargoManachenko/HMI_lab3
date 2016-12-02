@@ -3,15 +3,32 @@
     ViewData["Title"] = "Мониториг багажа";
 }
 
+<br />
 
-<div style="padding-top: 50px">
-    <div class="list-group">
-        <a asp-action="FutureFlights" class="list-group-item list-group-item-info"><span><img alt="Brand" src="~/images/futureFlight2.png" style="width: 63px" /></span>Будущие рейсы</a>
-        <a asp-action="CurrentFlights" class="list-group-item list-group-item-info"><span><img alt="Brand" src="~/images/inFlight.png" style="width: 63px" /></span>Рейсы в пути</a>
-        <a asp-action="PastFlights" class="list-group-item list-group-item-info" style="font-size: 20px;"><span><img alt="Brand" src="~/images/inHangar.png" style="width: 63px; "/>Прибывшие рейсы</span></a>
-    </div>
+<h2>
+    <center>Соятояния рейсов</center>
+</h2>
+<div style="padding-top: 50px; padding-right: 55%; text-align: center;">
+        <div class="list-group" style="width: 50%;">
+            <div clas="des">
+                <a asp-action="FutureFlights" class="list-group-item list-group-item-info" style="font-size: 20px;"><span><img alt="Brand" src="~/images/FFlight.png" /></span>Будущие рейсы</a>
+            </div>
+            <div clas="des">
+                <a asp-action="CurrentFlights" class="list-group-item list-group-item-info" style="font-size: 20px;"><span><img alt="Brand" src="~/images/CFlight.png" /></span>Рейсы в пути</a>
+            </div>
+            <div clas="des">
+                <a asp-action="PastFlights" class="list-group-item list-group-item-info" style="font-size: 20px;"><span><img alt="Brand" src="~/images/PFlight.png" />Прибывшие рейсы</span></a>
+            </div>
+        </div>
 </div>
 <style>
+    img {
+       width: 200px; 
+    }
+     .des {
+         width: 200px;
+     }
+
     .list-group {
         width: 400px;
         display: inline-flex;
@@ -21,9 +38,9 @@
         margin-right: 100px;
     }
 
-     img {
-         margin-right: 5%;
-     }
+    img {
+        margin-right: 5%;
+    }
     .list-group-item-info {
         margin-bottom: 2%;
     }

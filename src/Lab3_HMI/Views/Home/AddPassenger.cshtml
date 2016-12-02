@@ -45,80 +45,80 @@
     </script>
 </head>
 <div class="addContainer">
-<form asp-controller="Home" asp-action="AddPassengerToFlight" asp-route-flightId="@ViewBag.FlightId" method="post" class="form-horizontal">
-    <h3>Добавление нового пассажира <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
-    <hr />
-    <h3>Личные данные</h3>
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Surname" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Surname" id="surname" class="form-control" placeholder="Фамилия пассажира" required />
-            <span asp-validation-for="Surname" class="text-danger"></span>
+    <form asp-controller="Home" asp-action="AddPassengerToFlight" asp-route-flightId="@ViewBag.FlightId" method="post" class="form-horizontal">
+        <h3>Добавление нового пассажира <span class="glyphicon glyphicon-plane planeIcon"></span></h3>
+        <hr />
+        <h3>Личные данные</h3>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Surname" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Surname" id="surname" class="form-control" placeholder="Фамилия пассажира" required />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Name" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Name" id="name" class="form-control" placeholder="Имя пассажира" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" id="name" class="form-control" placeholder="Имя пассажира" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Phone" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Phone" id="phone" class="form-control" placeholder="Контактный телефон пассажира" required />
-            <span asp-validation-for="Phone" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Phone" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Phone" id="phone" class="form-control" placeholder="Контактный телефон пассажира" required />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <h3>Багаж</h3>
-    <div class="form-group">
-        <button id="btnAddBag" type="button"
-                onclick="addRow();" class="btn btn-default">
-            <img class="addButton" src="~/images/addBaggage2.png">
-        </button>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <fieldset>
-                <table class="bags" style="visibility:hidden">
-                    <thead>
-                        <tr>
-                            <td>
-                                <strong>Тип</strong>
+        <h3>Багаж</h3>
+        <div class="form-group">
+            <button id="btnAddBag" type="button"
+                    onclick="addRow();" class="btn btn-default">
+                <img class="addButton" src="~/images/addBaggage2.png">
+            </button>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <fieldset>
+                    <table class="bags" style="visibility:hidden">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <strong>Тип</strong>
 
-                            </td>
-                            <td>
-                                <strong>Вес</strong>
+                                </td>
+                                <td>
+                                    <strong>Вес</strong>
 
-                            </td>
-                            <td>
-                                <strong>Высота</strong>
+                                </td>
+                                <td>
+                                    <strong>Высота</strong>
 
-                            </td>
-                            <td>
-                                <strong>
-                                    Ширина
-                                </strong>
-                            </td>
-                            <td>
-                                <strong>Глубина</strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        Ширина
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>Глубина</strong>
 
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody id="tbBaggage"></tbody>
-                </table>
-            </fieldset>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbBaggage"></tbody>
+                    </table>
+                </fieldset>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId"><span aria-hidden="true">&larr; </span> Назад</a>
-            <button type="submit" class="btn btn-success" style="margin-left: 120px;">Добавить</button>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a class="btn btn-default" asp-action="PassengersOfFlight" asp-route-flightId="@ViewBag.FlightId"><span aria-hidden="true">&larr; </span> Назад</a>
+                <button type="submit" class="btn btn-success" style="margin-left: 120px;">Добавить</button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 </div>
 
 <style>
@@ -143,6 +143,7 @@
     .bags {
         margin-left: 18%;
     }
+
     .addContainer {
         margin-left: 18%;
         width: 80%;
