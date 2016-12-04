@@ -4,7 +4,7 @@
 }
 
 <link rel="stylesheet" href="~/css/site.css" />
-<div class="magic" style="background-image: url(~/images/bgr.jpg); padding-top: 2%">
+<div class="magic" style="padding-top: 2%">
     <br />
     <center>
         <h1 style="padding-bottom: 5%">Добро пожаловать в систему AIRCRAFT HELPER </h1>
@@ -15,22 +15,39 @@
         <p>Это <strong>набор удобных инструментов</strong> </p><p style="padding-bottom: 5%">для оперирования данными о полетах, пассажирах и багажных отделений.</p>
     </h3>
     <ul>
-        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px"></span>Управляйте рейсами</li>
+        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px;color:green;"></span>Управляйте рейсами</li>
         <br/>
-        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px"></span>Ведите учет пассажиров</li>
+        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px;color:green;"></span>Ведите учет пассажиров</li>
         <br/>
-        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px"></span>Регестрируйте багаж</li>
+        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px;color:green;"></span>Регестрируйте багаж</li>
         <br/>
-        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px"></span>Просматривайте историю полетов</li>
+        <li><span class="glyphicon glyphicon-ok" aria-hidden="true" style="padding-right: 10px;color:green;"></span>Просматривайте историю полетов</li>
         <br/>
     </ul>
     <br/>
-    <button type="button" class="btn btn-info btn-circle btn-xl"><i class="glyphicon glyphicon-education"></i>Обучение</button>
+    <button data-href="#info" type="button" id="down_btn" class="btn btn-info btn-circle btn-xl"><i class="glyphicon glyphicon-education"></i>Обучение</button>
 
-    
+    <div id="info">
+        <img src="~/images/Infographica.png" />
+    </div>
 </div>
 
 <style>
+
+    #info
+    {
+        margin-top:300px;
+    }
+
+
+    body
+    {
+        color:white;
+        background-image:url(../images/bgr.jpg);
+        background-repeat:no-repeat;
+        background-size:100%;
+    }
+
     .glyphicon-education {
         padding-right: 15px;
     }
@@ -59,3 +76,13 @@
         text-align: center;
     }
 </style>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $('#down_btn').on('click', function (e) {
+        e.preventDefault();
+        var t = 1000;
+        var d = $(this).attr('data-href') ? $(this).attr('data-href') : $(this).attr('href');
+        $('html,body').stop().animate({ scrollTop: $(d).offset().top - 60 }, t);
+    });
+</script>

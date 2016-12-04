@@ -81,7 +81,7 @@ namespace Lab3_HMI
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=HelloPage}/{id?}");
             });
         }
     }

@@ -75,25 +75,26 @@ namespace Lab3_HMI.Controllers
                 }
             }
             if (boxFilter != null && boxFilter.Length != 0)
-                           {
+            {
                 listToView = listToView.Where(f => boxFilter.Contains(f.AircraftType)).ToList();
-                List < int > list = new List<int>();
-                                if (boxFilter.Contains("Пассажирский"))
+                List<int> list = new List<int>();
+                if (boxFilter.Contains("Пассажирский"))
                     list.Add(1);
-                                if (boxFilter.Contains("Грузовой"))
+                if (boxFilter.Contains("Грузовой"))
                     list.Add(2);
                 ViewBag.Checked = list.ToArray();
-                            }
-           
-                       return View(listToView);
+            }
+
+            return View(listToView);
         }
 
-        public IActionResult PassengersOfFlight(int flightId)
+        public IActionResult PassengersOfFlight(string flightId)
         {
-            var flight = _db.Flights.Single(f => f.Id == flightId);
+            var fId = Convert.ToInt32(flightId);
+            var flight = _db.Flights.Single(f => f.Id == fId);
             ViewBag.Route = flight.DepaturePoint + "(" + flight.DateOfStart + ")" + " - " + flight.ArrivalPoint + "(" + flight.DateOfFinish + ")";
             ViewBag.FlightId = flightId;
-            var passengers = _db.Passengers.Include(p => p.Flight).Include(p => p.Baggage).Where(p => p.Flight.Id == flightId).ToList();
+            var passengers = _db.Passengers.Include(p => p.Flight).Include(p => p.Baggage).Where(p => p.Flight.Id == fId).ToList();
             return View(passengers);
         }
 
@@ -224,15 +225,18 @@ namespace Lab3_HMI.Controllers
             return View(flight);
         }
 
-        [HttpGet]
-        public IActionResult EditFlight(int flightId)
+        public IActionResult EditFlight(string flightId)
         {
-            var flight = _db.Flights.Single(f => f.Id == flightId);
-            return View(flight);
+            if (flightId != null)
+            {
+                 var flight = _db.Flights.Single(f => f.Id == Convert.ToInt32(flightId));
+                 return View(flight);
+            }
+            return RedirectToAction("Index", "Home");
+
         }
 
-        [HttpPost]
-        public IActionResult EditFlight(Flight flight)
+        public IActionResult ApplyEditFlight(Flight flight)
         {
             if (ModelState.IsValid)
             {
@@ -311,7 +315,7 @@ namespace Lab3_HMI.Controllers
             {
                 var i = DateTime.Compare(flight.DateOfStart, currentDateTime);
                 var j = DateTime.Compare(flight.DateOfFinish, currentDateTime);
-                if (i <= 0  && j >= 0)
+                if (i <= 0 && j >= 0)
                 {
                     model.Flights.Add(flight);
                 }
@@ -325,7 +329,7 @@ namespace Lab3_HMI.Controllers
             var currentDateTime = DateTime.Now;
 
             var model = new SearchBySurnameViewModel { Flights = new List<Flight>() };
-            
+
             foreach (var flight in _db.Flights)
             {
                 var i = DateTime.Compare(flight.DateOfFinish, currentDateTime);
@@ -356,7 +360,7 @@ namespace Lab3_HMI.Controllers
                         {
                             result.Add(passenger);
                         }
-                        
+
                     }
                 }
                 return View(result);
