@@ -7,35 +7,94 @@
 }
 
 <head>
-
-    <link rel="stylesheet" href="~/css/table.css"/>
+    <link rel="stylesheet" href="~/css/TablesStyle.css" />
     <link rel="stylesheet" href="~/css/hints.css"/>
     <link rel="stylesheet" href="~/css/search.css"/>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/js/flights.js"></script>
 </head>
-
-
-<div>
-    @if (Model != null && Model.Count != 0)
-    {
+<div class="navbar navbar-inverse navbar-fixed-top" style="opacity: 0.6;">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a class="my_class" asp-area="" asp-controller="Home" asp-action="HelloPage">Главная</a></li>
+                <li><a class="my_class" asp-area="" asp-controller="Home" asp-action="Index">Рейсы</a></li>
+                <li><a class="my_class" asp-area="" asp-controller="Home" asp-action="FlightsMonitoring">Мониторинг полетов</a></li>
+                <li style="background: rgba(42, 216, 247, 0.7);"><a class="activeNav" style="color: #ffffff" asp-area="" asp-controller="Home" asp-action="">Пассажиры рейса</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<br/>
         <center><h2>Пассажиры рейса @ViewBag.Route</h2></center>
 
-        <a asp-action="AddPassenger" asp-route-flightId="@ViewBag.FlightId" class="btn btn-success addPass"><span class="glyphicon glyphicon-plus"></span>  Добавить пассажира</a>
+<br/>
+<a asp-action="Index" style="margin-bottom: 17px; margin-left: 20px"><span class="glyphicon glyphicon-arrow-left"></span> Назад</a>
+    @if (Model != null && Model.Count != 0)
+    {
+        <br/><br/>
+        <a asp-action="AddPassenger" asp-route-flightId="@ViewBag.FlightId" class="btn btn-info addPass" style="margin-bottom: 17px; margin-left: 20px">Добавить пассажира<span class="glyphicon glyphicon-plus" style="margin-left: 10px;"></span>  </a>
+
+        <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0;">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-left: 5% ">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Сортировать <b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="background: rgb(155, 201, 255)">
+                            <li><a href="#">По фамилии</a></li>
+                            <li><a href="#">По имени</a></li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+                <div class="col-sm-3 col-md-3" style="margin-left: 15%">
+                    <form class="navbar-form" role="search">
+                        <div class="input-group" style="width:400px">
+                            <input type="text" class="form-control" placeholder="Введите номер багажа" name="q">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Показать в обратном порядке</a></li>
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
 
         var count = 1;
-        <table  class="simple-little-table">
+        <table id="table" class="simple-little-table" style="width: 96%; margin-left: 20px;">
             <tr>
-                <td><b>№ пассажира</b></td>
-                <td><b>Фамилия</b></td>
-                <td><b>Имя</b></td>
-                <td><b>Телефон</b></td>
-                <td><b>Багаж</b></td>
+                <th><b>№ пассажира</b></th>
+                <th><b>Фамилия</b></th>
+                <th><b>Имя</b></th>
+                <th><b>Телефон</b></th>
+                <th><b>Багаж</b></th>
 
             </tr>
             @foreach (var passenger in Model)
             {
-                <tr>
+                <tr name="row">
                     <td>@count</td>
                     <td>@passenger.Surname</td>
                     <td>@passenger.Name</td>
@@ -63,15 +122,6 @@
                             </div>
                         </td>
                     }
-                    <td style="width: 80px;">
-                        <span class="table-up glyphicon glyphicon-arrow-up"></span>
-                        <span class="table-down glyphicon glyphicon-arrow-down"></span>
-                    </td>
-                    <td><a asp-action="EditPassenger" asp-route-passengerId="@passenger.Id" class="glyphicon glyphicon-pencil" title="Редактировать" style="color:cornflowerblue;"></a></td>
-                   
-                    <td>
-                        <a asp-action="DeletePassenger" asp-route-flightId="@passenger.Flight.Id" asp-route-passengerId="@passenger.Id" class="glyphicon glyphicon-remove" title="Удалить" style="color:red;"></a>
-                    </td>
                 </tr>
                 count++;
             }
@@ -79,88 +129,23 @@
     }
     else
     {
-        <h3>В данном рейсе отсутствуют пассажиры</h3>
+        <h3>В данном рейсе отсутствуют пассажиры.</h3>
+        <br/>
+        <a asp-action="AddPassenger" asp-route-flightId="@ViewBag.FlightId" class="btn btn-info addPass" style="margin-bottom: 17px">Добавить пассажира<span class="glyphicon glyphicon-plus" style="margin-left: 10px;"></span>  </a>
     }
-</div>
 
 <style>
-    .addPass {
-        margin-top: 20px;
-    }
+   a {
+    color: white; /* Цвет ссылок */
+   }
+   a:hover {
+    color: black; /* Цвет ссылки */ 
+   } 
 
-    table {
-        margin-top: 40px;
-    }
-
-    td {
-        margin-right: 10px;
-        padding-right: 40px;
-        padding-top: 10px;
-    }
-
-    a {
-        cursor: pointer;
-    }
-
-    .planeIcon {
-        -webkit-transform: rotate(90deg); /* Chrome y Safari */
-        -moz-transform: rotate(90deg); /* Firefox */
-        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); /* Internet Explorer */
-        -o-transform: rotate(90deg); /* Opera */
-        display: inline-block;
-        padding-left: 8px;
-        vertical-align: text-top;
-        text-indent: 0px;
-    }
-    table {
-        margin-top: 40px;
-    }
-    a {
-        cursor: pointer;
-    }
-
-    .planeIcon {
-        -webkit-transform: rotate(90deg); /* Chrome y Safari */
-        -moz-transform: rotate(90deg); /* Firefox */
-        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); /* Internet Explorer */
-        -o-transform: rotate(90deg); /* Opera */
-        display: inline-block;
-        padding-left: 8px;
-        vertical-align: text-top;
-        text-indent: 0px;
-    }
-
-    .input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
-        
-        height: 34px;
-    }
-
-    .btn-group .btn {
-        border-radius: 0;
-        margin-left: -1px;
-        height: 34px;
-    }
-
-    input, select, textarea {
-        max-width: 100%;
-    }
-
-    /*.form-group {
-        margin-top: 5%;
-        margin-bottom: 10%;
-    }*/
-    .form-horizontal {
-
-        padding: 5% ;
-        height: 50%;
-
-    }
-    #roundBtn {
-        border-radius: 4px !important;
-    }
 </style>
 <script>
     $(document).ready(function (e) {
+
         $('.search-panel .dropdown-menu').find('a').click(function (e) {
             e.preventDefault();
             var param = $(this).attr("href").replace("#", "");
@@ -168,5 +153,25 @@
             $('.search-panel span#search_concept').text(concept);
             $('.input-group #search_param').val(param);
         });
+
+
+        $("#table tr").click(function (e) {
+
+            var x_coord = e.clientX + 10;
+            var y_coord = e.clientY - 450;
+            $("#operations").remove();
+
+            var selected = $(this).hasClass('selected');
+            $("#table tr").removeClass('selected');
+
+            if (!selected) {
+                $(this).addClass('selected');
+                $("body").append("<div class='operations' id='operations' style='position:absolute;z-index:101;margin-left:" + x_coord
+        + "px;margin-top:" + y_coord + "px;'><span class='glyphicon glyphicon-pencil edit' title='Редактировать информацию о рейсе' />"
+        + "<span class='glyphicon glyphicon-trash remove' title='Удалить информацию о рейсе' /></div>");
+                document.getElementById('flightId').value = $(this).find('td:first').html();
+            }
+        });
     });
+
 </script>

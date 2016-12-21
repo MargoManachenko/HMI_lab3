@@ -103,6 +103,8 @@ namespace Lab3_HMI.Controllers
         {
             ViewBag.FlightId = flightId;
             var model = new Passenger();
+            ViewBag.FlightId = flightId;
+
             return View(model);
         }
 

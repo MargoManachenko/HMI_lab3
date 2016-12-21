@@ -17,7 +17,7 @@
     </environment>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="opacity: 0.8;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,12 +29,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="HelloPage">Главная</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Рейсы</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="FlightsMonitoring">Мониторинг полетов</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a class="my_class" asp-area="" asp-controller="Home" asp-action="HelloPage">Главная</a></li>
+                    <li><a class="my_class" asp-area="" asp-controller="Home" asp-action="Index">Рейсы</a></li>
+                    <li><a class="my_class"  asp-area="" asp-controller="Home" asp-action="FlightsMonitoring">Мониторинг полетов</a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </div>
@@ -64,5 +62,16 @@
     </environment>
 
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+            onload = function () {
+                for (var lnk = document.links, j = 0; j < lnk.length; j++)
+                    if (lnk[j].href == document.URL && lnk[j].className == "my_class") {
+                        lnk[j].style.color = 'AliceBlue';
+                        lnk[j].style.fontSize = '18spx';
+                        lnk[j].style.background = 'rgba(42, 216, 247, 0.7)';
+                    }
+            }
+    </script>
 </body>
 </html>
